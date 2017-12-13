@@ -1,4 +1,13 @@
 .jumbotron{
-	background-color: #925d26; 
+	background-color: black; 
 	color: white;
+}
+
+body{
+	background-color: #cceef9;
+}
+
+.panel
+{
+	background-color: #e9f5ff;
 }
