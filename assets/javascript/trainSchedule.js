@@ -23,7 +23,7 @@
   var trnFrequency = $("#frequency-input").val();
 
   
-  // "Temp" object for holding train data
+  // Temporary object for holding train data
   var newTrn = {
     name: trnName,
     destination: trnDestination,
@@ -45,6 +45,7 @@
 });
 
 
+ //declaring funcktion to get newly added data to the database
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   console.log(childSnapshot.val());
