@@ -45,7 +45,7 @@
 });
 
 
- //declaring funcktion to get newly added data to the database
+ //declaring function to get newly added data to the database
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   console.log(childSnapshot.val());
@@ -56,31 +56,23 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   var trnFirstTime = childSnapshot.val().firstTime;
   var trnFrequency = childSnapshot.val().frequency;
 
-
-
-  // Train Information
-  console.log(trnName);
-  console.log(trnDestination);
-  console.log(trnFirstTime);
-  console.log(trnFrequency);
-
+  //converting the first train's time to make sure it falls before todays time
   var trnFirstTimeConverted = moment(trnFirstTime, "hh:mm").subtract(1, "years");
-  console.log(trnFirstTimeConverted);
+  // getting current time
   var currentTime = moment();
-  console.log("current Time: " + moment(currentTime).format("hh:mm"));
+  // getting the difference in time from the current time and the first train as minutes
   var diffTime = currentTime.diff(moment(trnFirstTimeConverted), "minutes");
-  console.log("DIFFERENCE IN TIME: " + diffTime);
-  var tRemainder = diffTime % trnFrequency;
-  console.log(tRemainder);
-  var tMinutesTillTrain = trnFrequency - tRemainder;
-  console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+  // dividing the train's datetime by the frequency
+  var remainder = diffTime % trnFrequency;
+  //getting the minutes until the train
+  var minsUntilTrain = trnFrequency - remainder;
 
     // Next Train arrival time
-  var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+  var nextTrain = moment().add(minsUntilTrain, "minutes");
   console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
   var nextTraintime = moment(nextTrain).format("hh:mm");
 
 
  //appends the variables to the table rows
-  $("#train-table > tbody").append("<tr><td>" + trnName + "</td><td>" + trnDestination + "</td><td>" + trnFrequency + "</td><td>" + nextTraintime + "</td><td>" + tMinutesTillTrain + "</td><tr>");
+  $("#train-table > tbody").append("<tr><td>" + trnName + "</td><td>" + trnDestination + "</td><td>" + trnFrequency + "</td><td>" + nextTraintime + "</td><td>" + minsUntilTrain + "</td><tr>");
 })
